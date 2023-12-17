@@ -23,8 +23,15 @@ start_v2ray() {
     v2ray -config ${V2RAY_CONF}
 }
 
-main() {
+start_nginx() {
+    sed \
+        -e "s:\${V2RAY_WS_PATH}:${V2RAY_WS_PATH}:" \
+        /etc/nginx/default.conf > /etc/nginx/conf.d/default.conf
     nginx && echo "nginx started"
+}
+
+main() {
+    start_nginx
     start_v2ray
 }
 
